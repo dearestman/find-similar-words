@@ -1,5 +1,8 @@
 package com.company;
 
+//Также можно взять мое решение с Комментариями с GitHub: https://github.com/dearestman/find-similar-words.git
+
+
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -40,26 +43,30 @@ public class Main {
 
         ArrayList<MappingSets> mappingSetsArrayList = new ArrayList<>();
 
-        FileReader fileReader = new FileReader("input.txt");
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        int n = Integer.parseInt(bufferedReader.readLine());
-        for (int i = 0; i < n; i++) {
-            setN.add(bufferedReader.readLine());
+        File file = new File("input.txt");
+        if (file.exists() && !file.isDirectory()){
+            FileReader fileReader = new FileReader("input.txt");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            int n = Integer.parseInt(bufferedReader.readLine());
+            for (int i = 0; i < n; i++) {
+                setN.add(bufferedReader.readLine());
+            }
+
+            int m = Integer.parseInt(bufferedReader.readLine());
+            for (int i = 0; i < m; i++) {
+                String line = bufferedReader.readLine();
+                setM.add(line);
+
+                /**
+                 * Перебираем все возможные варианты и считаем сколько символов пересекаются между строками при помощи конструктора класса MappingSets
+                 */
+                setN.forEach(s -> {
+                    MappingSets mappingSets = new MappingSets(s, line);
+                    mappingSetsArrayList.add(mappingSets);
+                });
+            }
         }
 
-        int m = Integer.parseInt(bufferedReader.readLine());
-        for (int i = 0; i < m; i++) {
-            String line = bufferedReader.readLine();
-            setM.add(line);
-
-            /**
-             * Перебираем все возможные варианты и считаем сколько символов пересекаются между строками при помощи конструктора класса MappingSets
-             */
-            setN.forEach(s -> {
-                MappingSets mappingSets = new MappingSets(s, line);
-                mappingSetsArrayList.add(mappingSets);
-            });
-        }
 
         /**
          * Сортируем Список в обратном порядке по количеству повторяющих символов
@@ -119,9 +126,5 @@ public class Main {
             }
         });
         fileWriter.close();
-
     }
-
-
-
 }
